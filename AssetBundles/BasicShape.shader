@@ -1,4 +1,4 @@
-﻿Shader "Custom/BasicShape" {
+Shader "Custom/BasicShape" {
     Properties {
         _Shininess ("Shininess", float) = 10.0
         _SpecularIntensity ("Specular Intensity", float) = 0.1
@@ -34,7 +34,7 @@
                 float4 color : COLOR;
 			};
 			
-            float4 _PlanetSunLightDirection;
+            uniform float4 _PlanetSunLightDirection;
             float _Shininess;
             float _SpecularIntensity;
             float _DiffuseIntensity;
@@ -42,12 +42,12 @@
             float4 _AmbientColor;
             sampler2D _BumpMap;
             float _BumpIntensity;
-			 
+			
 			fragment_data vert(vertex_data v) {
                 fragment_data f;
                 f.worldPos = mul(unity_ObjectToWorld, v.vertex);
                 f.objPos = v.vertex;
-                f.vertex = mul(unity_MatrixVP, mul(unity_ObjectToWorld, v.vertex));
+                f.vertex = UnityObjectToClipPos(v.vertex);
                 f.normal = normalize(mul(float4(v.normal, 0.0), unity_WorldToObject).xyz);
                 f.color = v.color;
 
